@@ -35,7 +35,7 @@ public class TaskService {
     }
 
     private TaskResponse toResponse(Task task) {
-        return new TaskResponse(task.getId(), task.getTitle(), task.getStatus());
+        return new TaskResponse(task.getId(), task.getTitle(), task.getStatus(), task.getDescription());
     }
 
     public void deleteTask(Long id) {
