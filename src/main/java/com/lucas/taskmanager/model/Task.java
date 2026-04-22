@@ -1,11 +1,24 @@
 package com.lucas.taskmanager.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "tasks")
 public class Task {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "title", nullable = false, length = 100)
     private String title;
+
+    @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(name = "status", nullable = false)
     private String status;
 
+    private Task() {}
 
     public Task(Long id, String title, String description, String status) {
         this.id = id;

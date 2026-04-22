@@ -30,7 +30,7 @@ public class TaskService {
     }
 
     public TaskResponse createTask(TaskRequest request) {
-        Task task = new Task(this.taskRepository.getNextId(), request.title(), request.description(), "Pendente");
+        Task task = new Task(this.taskRepository.getNextId(), request.title(), request.description(), "PENDING");
         return toResponse(this.taskRepository.saveTask(task));
     }
 
