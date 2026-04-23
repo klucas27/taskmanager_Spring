@@ -1,5 +1,6 @@
 package com.lucas.taskmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,10 +19,9 @@ public class Task {
     @Column(name = "status", nullable = false)
     private String status;
 
-    private Task() {}
+    protected Task() {}
 
-    public Task(Long id, String title, String description, String status) {
-        this.id = id;
+    public Task(String title, String description, String status) {
         this.title = title;
         this.description = description;
         this.status = status;

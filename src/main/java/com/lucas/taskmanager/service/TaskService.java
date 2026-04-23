@@ -22,7 +22,7 @@ public class TaskService {
     }
 
     public List<TaskResponse> getAllTask() {
-        return this.taskRepository.listAllTask().stream().map(this::toResponse).toList();
+        return this.taskRepository.findAll().stream().map(this::toResponse).toList();
     }
 
     public TaskResponse getTaskById(Long id) {
@@ -30,8 +30,8 @@ public class TaskService {
     }
 
     public TaskResponse createTask(TaskRequest request) {
-        Task task = new Task(this.taskRepository.getNextId(), request.title(), request.description(), "PENDING");
-        return toResponse(this.taskRepository.saveTask(task));
+        Task task = new Task(request.title(), request.description(), "PENDING");
+        return toResponse(this.taskRepository.save(task));
     }
 
     private TaskResponse toResponse(Task task) {
@@ -39,7 +39,9 @@ public class TaskService {
     }
 
     public void deleteTask(Long id) {
-        if (!(taskRepository.deleteById(id))) {
+        if (taskRepository.existsById(id)) {
+            taskRepository.deleteById(id);
+        } else {
             throw new TaskNotFoundException(id);
         }
     }
@@ -49,12 +51,8 @@ public class TaskService {
         if (!(VALID_STATUSES.contains(request.status()))) {
             throw new InvalidStatusException(request.status());
         }
-
         Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
-
         task.setStatus(request.status());
-
-        return toResponse(task);
-
+        return toResponse(this.taskRepository.save(task));
     }
 }
