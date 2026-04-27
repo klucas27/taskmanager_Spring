@@ -1,6 +1,5 @@
 package com.lucas.taskmanager.model;
 
-import com.fasterxml.jackson.annotation.JsonSetter;
 import jakarta.persistence.*;
 
 @Entity
