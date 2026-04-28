@@ -21,7 +21,13 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public List<TaskResponse> getAllTask() {
+
+    // Lists, finds and getters
+    public List<TaskResponse> getTaskOrStatus(String status) {
+        if (status != null && !status.isBlank()) {
+            return this.taskRepository.findByStatus(status).stream().map(this::toResponse).toList();
+        }
+
         return this.taskRepository.findAll().stream().map(this::toResponse).toList();
     }
 
@@ -29,13 +35,15 @@ public class TaskService {
         return toResponse(this.taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id)));
     }
 
+    public List<TaskResponse> findByTitleContaining(String keyword) {
+        return this.taskRepository.findByTitleContainingIgnoreCase(keyword).stream().map(this::toResponse).toList();
+    }
+
+
+    // creates, Posts, Deletes
     public TaskResponse createTask(TaskRequest request) {
         Task task = new Task(request.title(), request.description(), "PENDING");
         return toResponse(this.taskRepository.save(task));
-    }
-
-    private TaskResponse toResponse(Task task) {
-        return new TaskResponse(task.getId(), task.getTitle(), task.getStatus(), task.getDescription());
     }
 
     public void deleteTask(Long id) {
@@ -54,5 +62,11 @@ public class TaskService {
         Task task = taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
         task.setStatus(request.status());
         return toResponse(this.taskRepository.save(task));
+    }
+
+
+    // Configs
+    private TaskResponse toResponse(Task task) {
+        return new TaskResponse(task.getId(), task.getTitle(), task.getStatus(), task.getDescription());
     }
 }

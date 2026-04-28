@@ -33,4 +33,11 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse(400, message);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
+
+    @ExceptionHandler(DuplicateTitleException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateTitle(DuplicateTitleException ex){
+
+    }
+
+
 }
