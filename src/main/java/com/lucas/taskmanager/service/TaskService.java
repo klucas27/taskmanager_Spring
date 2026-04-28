@@ -24,9 +24,16 @@ public class TaskService {
 
 
     // Lists, finds and getters
-    public List<TaskResponse> getTaskOrStatus(String status) {
-        if (status != null && !status.isBlank()) {
+    public List<TaskResponse> getTaskOrStatus(String status, String keyword) {
+        boolean hasStatus = status != null && !status.isBlank();
+        boolean hasKeyword = keyword != null && !keyword.isBlank();
+
+        if (hasStatus && !hasKeyword) {
             return this.taskRepository.findByStatus(status).stream().map(this::toResponse).toList();
+        } else if (!hasStatus && hasKeyword){
+            return this.taskRepository.findByTitleContainingIgnoreCase(keyword).stream().map(this::toResponse).toList();
+        } else if (hasStatus && hasKeyword) {
+            return this.taskRepository.findByTitleContainingIgnoreCaseAndStatus(status, keyword).stream().map(this::toResponse).toList();
         }
 
         return this.taskRepository.findAll().stream().map(this::toResponse).toList();
@@ -43,7 +50,7 @@ public class TaskService {
 
     // creates, Posts, Deletes
     public TaskResponse createTask(TaskRequest request) {
-        if (this.taskRepository.findByTitle(request.title())) {
+        if (this.taskRepository.existsByTitle(request.title())) {
             throw new DuplicateTitleException(request.title());
         }
 

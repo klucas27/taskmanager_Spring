@@ -5,7 +5,6 @@ import com.lucas.taskmanager.dto.TaskResponse;
 import com.lucas.taskmanager.dto.UpdateStatusRequest;
 import com.lucas.taskmanager.service.TaskService;
 import jakarta.validation.Valid;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +26,8 @@ public class TaskController {
 
     // Getters
     @GetMapping
-    public List<TaskResponse> showTasks(@RequestParam(required = false) String status) {
-        return this.taskService.getTaskOrStatus(status);
+    public List<TaskResponse> showTasks(@RequestParam(required = false) String status, @RequestParam(required = false) String keyword) {
+        return this.taskService.getTaskOrStatus(status, keyword);
     }
 
     @GetMapping("/{id}")
