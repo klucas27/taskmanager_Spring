@@ -36,7 +36,7 @@ public class TaskController {
         return this.taskService.getTaskById(id);
     }
 
-    @GetMapping("/taskHave/{keyword}")
+    @GetMapping("/taskThere/{keyword}")
     public List<TaskResponse> getTitleContaining(@PathVariable String keyword) {
         return this.taskService.findByTitleContaining(keyword);
     }

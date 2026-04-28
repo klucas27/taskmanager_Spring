@@ -3,6 +3,7 @@ package com.lucas.taskmanager.service;
 import com.lucas.taskmanager.dto.TaskRequest;
 import com.lucas.taskmanager.dto.TaskResponse;
 import com.lucas.taskmanager.dto.UpdateStatusRequest;
+import com.lucas.taskmanager.exception.DuplicateTitleException;
 import com.lucas.taskmanager.exception.InvalidStatusException;
 import com.lucas.taskmanager.exception.TaskNotFoundException;
 import com.lucas.taskmanager.model.Task;
@@ -42,7 +43,12 @@ public class TaskService {
 
     // creates, Posts, Deletes
     public TaskResponse createTask(TaskRequest request) {
+        if (this.taskRepository.findByTitle(request.title())) {
+            throw new DuplicateTitleException(request.title());
+        }
+
         Task task = new Task(request.title(), request.description(), "PENDING");
+
         return toResponse(this.taskRepository.save(task));
     }
 
