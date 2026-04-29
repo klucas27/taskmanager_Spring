@@ -30,10 +30,10 @@ public class TaskService {
 
         if (hasStatus && !hasKeyword) {
             return this.taskRepository.findByStatus(status).stream().map(this::toResponse).toList();
-        } else if (!hasStatus && hasKeyword){
+        } else if (!hasStatus && hasKeyword) {
             return this.taskRepository.findByTitleContainingIgnoreCase(keyword).stream().map(this::toResponse).toList();
         } else if (hasStatus && hasKeyword) {
-            return this.taskRepository.findByTitleContainingIgnoreCaseAndStatus(status, keyword).stream().map(this::toResponse).toList();
+            return this.taskRepository.findByTitleContainingIgnoreCaseAndStatus(keyword, status).stream().map(this::toResponse).toList();
         }
 
         return this.taskRepository.findAll().stream().map(this::toResponse).toList();
@@ -42,11 +42,6 @@ public class TaskService {
     public TaskResponse getTaskById(Long id) {
         return toResponse(this.taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id)));
     }
-
-    public List<TaskResponse> findByTitleContaining(String keyword) {
-        return this.taskRepository.findByTitleContainingIgnoreCase(keyword).stream().map(this::toResponse).toList();
-    }
-
 
     // creates, Posts, Deletes
     public TaskResponse createTask(TaskRequest request) {

@@ -10,7 +10,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     List<Task> findByTitleContainingIgnoreCase(String keyword);
 
-    List<Task> findByTitleContainingIgnoreCaseAndStatus(String status, String keyword);
+    List<Task> findByTitleContainingIgnoreCaseAndStatus(String keyword, String status);
 
     boolean existsByTitle(String title);
 }
