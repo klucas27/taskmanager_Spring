@@ -18,12 +18,9 @@ public class Task {
     @Column(name = "status", nullable = false)
     private String status;
 
-//    @Column(name="user", nullable = false)
-//    private User user;
-
     protected Task() {
     }
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

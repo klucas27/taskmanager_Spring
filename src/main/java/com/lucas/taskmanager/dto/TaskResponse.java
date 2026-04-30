@@ -4,7 +4,7 @@ public record TaskResponse(
         Long id,
         String title,
         String status,
-        String description
-
+        String description,
+        Long userId
 ) {
 }

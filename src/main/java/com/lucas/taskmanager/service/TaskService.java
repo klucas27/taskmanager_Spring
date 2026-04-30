@@ -84,6 +84,6 @@ public class TaskService {
 
     // Configs
     private TaskResponse toResponse(Task task) {
-        return new TaskResponse(task.getId(), task.getTitle(), task.getStatus(), task.getDescription());
+        return new TaskResponse(task.getId(), task.getTitle(), task.getStatus(), task.getDescription(), task.getUser().getId());
     }
 }
