@@ -1,6 +1,7 @@
 package com.lucas.taskmanager.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record TaskRequest(
@@ -11,7 +12,7 @@ public record TaskRequest(
         @NotBlank(message = "Description is required!")
         String description,
 
-        @NotBlank(message = "User is required!")
+        @NotNull(message = "User required!")
         Long userId
 ) {
 }

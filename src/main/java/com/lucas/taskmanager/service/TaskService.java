@@ -29,10 +29,6 @@ public class TaskService {
     }
 
 
-
-
-
-
     // Lists, finds and getters
     public List<TaskResponse> getTaskOrStatus(String status, String keyword) {
         boolean hasStatus = status != null && !status.isBlank();
@@ -59,12 +55,7 @@ public class TaskService {
             throw new DuplicateTitleException(request.title());
         }
 
-        if (request.userId() == null || userRepository.existsById(request.userId())){
-            throw new UserNotFoundException(request.userId());
-        }
-
-
-
+      // adicionar add user aqui!
         Task task = new Task(request.title(), request.description(), "PENDING");
 
         return toResponse(this.taskRepository.save(task));
