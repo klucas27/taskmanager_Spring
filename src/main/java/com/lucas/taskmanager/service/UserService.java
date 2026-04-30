@@ -2,6 +2,8 @@ package com.lucas.taskmanager.service;
 
 import com.lucas.taskmanager.dto.UserRequest;
 import com.lucas.taskmanager.dto.UserResponse;
+import com.lucas.taskmanager.exception.DuplicateEmailUserException;
+import com.lucas.taskmanager.exception.DuplicateTitleException;
 import com.lucas.taskmanager.exception.UserNotFoundException;
 import com.lucas.taskmanager.model.User;
 import com.lucas.taskmanager.repository.UserRepository;
@@ -26,9 +28,10 @@ public class UserService {
     // Posts
     public UserResponse createUser(UserRequest request) {
 
-//        if (userRepository.existsById(userRepository.exists() .userId())) {
-//            throw new UserNotFoundException(request.userId());
-//        }
+
+        if (this.userRepository.existsByEmail(request.email())) {
+            throw new DuplicateEmailUserException(request.email());
+        }
 
         User user = new User(request.name(), request.email());
 

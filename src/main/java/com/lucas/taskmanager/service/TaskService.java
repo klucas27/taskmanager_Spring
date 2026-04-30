@@ -8,6 +8,7 @@ import com.lucas.taskmanager.exception.InvalidStatusException;
 import com.lucas.taskmanager.exception.TaskNotFoundException;
 import com.lucas.taskmanager.exception.UserNotFoundException;
 import com.lucas.taskmanager.model.Task;
+import com.lucas.taskmanager.model.User;
 import com.lucas.taskmanager.repository.TaskRepository;
 import com.lucas.taskmanager.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -55,8 +56,9 @@ public class TaskService {
             throw new DuplicateTitleException(request.title());
         }
 
-      // adicionar add user aqui!
-        Task task = new Task(request.title(), request.description(), "PENDING");
+        User userGet =  userRepository.findById(request.userId()).orElseThrow(() -> new UserNotFoundException(request.userId()));
+
+        Task task = new Task(request.title(), request.description(), "PENDING", userGet);
 
         return toResponse(this.taskRepository.save(task));
     }
