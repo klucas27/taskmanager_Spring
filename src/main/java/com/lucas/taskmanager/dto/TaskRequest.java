@@ -9,7 +9,9 @@ public record TaskRequest(
         String title,
 
         @NotBlank(message = "Description is required!")
-        String description
+        String description,
 
+        @NotBlank(message = "User is required!")
+        Long userId
 ) {
 }

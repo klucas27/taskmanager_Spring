@@ -18,7 +18,8 @@ public class Task {
     @Column(name = "status", nullable = false)
     private String status;
 
-    protected Task() {}
+    protected Task() {
+    }
 
     public Task(String title, String description, String status) {
         this.title = title;
@@ -26,7 +27,15 @@ public class Task {
         this.status = status;
     }
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     //getters
+    public Long getIdUser() {
+        return user.getId();
+    }
+
     public Long getId() {
         return this.id;
     }

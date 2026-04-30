@@ -6,8 +6,10 @@ import com.lucas.taskmanager.dto.UpdateStatusRequest;
 import com.lucas.taskmanager.exception.DuplicateTitleException;
 import com.lucas.taskmanager.exception.InvalidStatusException;
 import com.lucas.taskmanager.exception.TaskNotFoundException;
+import com.lucas.taskmanager.exception.UserNotFoundException;
 import com.lucas.taskmanager.model.Task;
 import com.lucas.taskmanager.repository.TaskRepository;
+import com.lucas.taskmanager.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +17,20 @@ import java.util.List;
 @Service
 public class TaskService {
     private final TaskRepository taskRepository;
+
+    private final UserRepository userRepository;
+
     private static final List<String> VALID_STATUSES = List.of("PENDING", "IN_PROGRESS", "DONE");
 
 
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository, UserRepository userRepository) {
         this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
     }
+
+
+
+
 
 
     // Lists, finds and getters
@@ -48,6 +58,12 @@ public class TaskService {
         if (this.taskRepository.existsByTitle(request.title())) {
             throw new DuplicateTitleException(request.title());
         }
+
+        if (request.userId() == null || userRepository.existsById(request.userId())){
+            throw new UserNotFoundException(request.userId());
+        }
+
+
 
         Task task = new Task(request.title(), request.description(), "PENDING");
 
