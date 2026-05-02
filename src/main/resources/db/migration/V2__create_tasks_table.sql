@@ -1,4 +1,4 @@
-CREATE TABLE tasks (
+CREATE TABLE tasks(
     id BIGSERIAL PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
