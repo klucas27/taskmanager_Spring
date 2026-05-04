@@ -3,16 +3,19 @@ package com.lucas.taskmanager.service;
 import com.lucas.taskmanager.dto.UserRequest;
 import com.lucas.taskmanager.dto.UserResponse;
 import com.lucas.taskmanager.exception.DuplicateEmailUserException;
-import com.lucas.taskmanager.exception.DuplicateTitleException;
-import com.lucas.taskmanager.exception.UserNotFoundException;
 import com.lucas.taskmanager.model.User;
 import com.lucas.taskmanager.repository.UserRepository;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
 
 
@@ -44,5 +47,14 @@ public class UserService {
     private UserResponse toResponserUser(User user) {
 
         return new UserResponse(user.getId(), user.getName(), user.getEmail());
+    }
+
+    @Override
+    public @Nullable UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
+        if (!userRepository.existsByEmail(username)) {
+            throw new UsernameNotFoundException(username);
+        }
+
+        return null;
     }
 }
