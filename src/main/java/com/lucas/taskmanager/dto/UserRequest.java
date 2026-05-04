@@ -9,6 +9,9 @@ public record UserRequest(
         String name,
 
         @NotBlank
-        String email
+        String email,
+
+        @NotBlank
+        String password
 ) {
 }

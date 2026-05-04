@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService {
             throw new DuplicateEmailUserException(request.email());
         }
 
-        User user = new User(request.name(), request.email());
+        User user = new User(request.name(), request.email(), request.password());
 
         return toResponserUser(this.userRepository.save(user));
 
@@ -51,10 +51,12 @@ public class UserService implements UserDetailsService {
 
     @Override
     public @Nullable UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
-        if (!userRepository.existsByEmail(username)) {
-            throw new UsernameNotFoundException(username);
-        }
+        User dbUser = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
 
-        return null;
+
+        UserDetails userDetails = org.springframework.security.core.userdetails.User.
+                withUsername(dbUser.getEmail()).password("").roles("USER").build();
+
+        return userDetails;
     }
 }
