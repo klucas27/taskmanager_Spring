@@ -20,10 +20,7 @@ public class User {
 
     @Column(nullable = false)
     private String password;
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Task> tasks = new ArrayList<>();
-
+    
     protected User() {
     }
 
@@ -47,6 +44,10 @@ public class User {
 
     public String getEmail() {
         return this.email;
+    }
+
+    public String getPassword() {
+        return this.password;
     }
 
 
