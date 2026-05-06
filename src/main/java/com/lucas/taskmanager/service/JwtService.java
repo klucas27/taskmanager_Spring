@@ -24,4 +24,10 @@ public class JwtService {
 
         return jwt;
     }
+
+    public String extractEmail(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(secrete.getBytes());
+
+        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload().getSubject();
+    }
 }
