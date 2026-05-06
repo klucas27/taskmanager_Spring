@@ -18,17 +18,18 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Task> tasks = new ArrayList<>();
-
+    @Column(nullable = false)
+    private String password;
+    
     protected User() {
     }
 
-    public User(String name, String email) {
+    public User(String name, String email, String password) {
         this.name = name;
 
         this.email = email;
 
+        this.password = password;
     }
 
     //getters
@@ -43,6 +44,10 @@ public class User {
 
     public String getEmail() {
         return this.email;
+    }
+
+    public String getPassword() {
+        return this.password;
     }
 
 

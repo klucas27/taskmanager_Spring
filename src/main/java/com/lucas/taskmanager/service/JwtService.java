@@ -1,6 +1,7 @@
 package com.lucas.taskmanager.service;
 
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class JwtService {
     private Long expiration;
 
     public String generateToken(String email) {
-        SecretKey key = Jwts.SIG.HS256.key().build();
+        SecretKey key = Keys.hmacShaKeyFor(secrete.getBytes());
 
         String jwt = Jwts.builder().subject(email).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis() + expiration)).signWith(key).compact();
 
