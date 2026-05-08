@@ -11,6 +11,7 @@ import com.lucas.taskmanager.model.Task;
 import com.lucas.taskmanager.model.User;
 import com.lucas.taskmanager.repository.TaskRepository;
 import com.lucas.taskmanager.repository.UserRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -86,4 +87,10 @@ public class TaskService {
     private TaskResponse toResponse(Task task) {
         return new TaskResponse(task.getId(), task.getTitle(), task.getStatus(), task.getDescription(), task.getUser().getId());
     }
+
+    // Tests
+    public static boolean verifyStatus(String status){
+        return VALID_STATUSES.contains(status);
+    }
+
 }
