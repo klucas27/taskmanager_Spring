@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
-
 public class TaskController {
 
     private final TaskService taskService;
@@ -26,6 +25,8 @@ public class TaskController {
     // Getters
     @GetMapping
     public List<TaskResponse> showTasks(@RequestParam(required = false) String status, @RequestParam(required = false) String keyword) {
+
+
         return this.taskService.getTaskOrStatus(status, keyword);
     }
 
