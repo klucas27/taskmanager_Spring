@@ -20,7 +20,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TaskController.class)
-
 class TaskControllerTest {
 
     @Autowired
@@ -32,8 +31,7 @@ class TaskControllerTest {
     @MockitoBean
     private JwtService jwtService;
 
-    @MockitoBean
-    private TaskResponse taskResponse;
+        private TaskResponse taskResponse;
 
     @MockitoBean
     private UserDetailsService userDetailsService;
@@ -47,7 +45,7 @@ class TaskControllerTest {
 
     @Test
     @WithMockUser
-    void shouldReturn200WhenGetTaskThere() throws Exception{
+    void shouldReturn200WhenGetTaskThere() throws Exception {
 
         TaskResponse response = new TaskResponse(21L, "teste", "PENDING", "testes desc", 2L);
         when(taskService.getTaskById(111L)).thenReturn(response);
@@ -56,7 +54,7 @@ class TaskControllerTest {
 
     @Test
     @WithMockUser
-    void shouldReturn404WhenGetTaskNotThere() throws Exception{
+    void shouldReturn404WhenGetTaskNotThere() throws Exception {
 
         when(taskService.getTaskById(12L)).thenThrow(new TaskNotFoundException(12L));
         mockMvc.perform(get("/tasks/12")).andExpect(status().isNotFound());
